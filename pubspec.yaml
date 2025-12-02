@@ -1,0 +1,107 @@
+name: sahayak
+description: AI Personal Assistant for Nepal
+version: 1.0.0+1
+publish_to: 'none'
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # UI & Navigation
+  cupertino_icons: ^1.0.6
+  flutter_svg: ^2.0.9
+  lottie: ^3.3.2
+  animations: ^2.0.7
+  
+  # State Management
+  flutter_bloc: ^9.1.1
+  hydrated_bloc: ^10.1.1
+  equatable: ^2.0.5
+  
+  # AI & ML
+  google_ml_kit: ^0.20.0
+  tflite_flutter: ^0.12.1
+  camera: ^0.11.3
+  image_picker: ^1.0.2
+  image: ^4.1.4
+  
+  # Speech & Audio
+  speech_to_text: ^7.3.0
+  flutter_tts: ^4.2.3
+  just_audio: ^0.10.5
+  record: ^6.1.2
+  
+  # PDF & Documents
+  pdf: ^3.10.2
+  printing: ^5.11.1
+  open_file: ^3.3.1
+  path_provider: ^2.1.0
+  
+  # Networking
+  dio: ^5.3.3
+  http: ^1.1.0
+  socket_io_client: ^3.1.3
+  
+  # Firebase
+  firebase_core: ^4.2.1
+  firebase_auth: ^6.1.2
+  cloud_firestore: ^6.1.0
+  firebase_storage: ^13.0.4
+  firebase_messaging: ^16.0.4
+  
+  # Local Storage
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  shared_preferences: ^2.2.2
+  sqflite: ^2.3.0
+  
+  # Utilities
+  intl: ^0.20.2
+  url_launcher: ^6.1.14
+  connectivity_plus: ^7.0.0
+  package_info_plus: ^9.0.0
+  device_info_plus: ^12.3.0
+  
+  # Ads & Monetization
+  google_mobile_ads: ^6.0.0
+  purchases_flutter: ^9.9.9
+  razorpay_flutter: ^1.3.2
+  
+  # Forms & Validation
+  formz: ^0.8.0
+  
+  # Localization
+  flutter_localizations:
+    sdk: flutter
+  easy_localization: ^3.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  bloc_test: ^10.0.0
+  mockito: ^5.4.2
+  build_runner: ^2.4.7
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/animations/
+    - assets/sounds/
+    - assets/models/
+    - assets/translations/
+    - assets/fonts/
+  
+  fonts:
+    - family: Preeti
+      fonts:
+        - asset: assets/fonts/preeti.ttf
+    - family: NotoSansDevanagari
+      fonts:
+        - asset: assets/fonts/NotoSansDevanagari-Regular.ttf
+        - asset: assets/fonts/NotoSansDevanagari-Bold.ttf
+          weight: 700
