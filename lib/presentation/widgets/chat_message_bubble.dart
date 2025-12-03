@@ -545,26 +545,22 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Helper method to create color with opacity without deprecation - FIXED
-  Color _createColorWithOpacity(Color color, double opacity) {
-    // Use the new component accessors instead of color.value
-    final a = (color.alpha * opacity).round().clamp(0, 255);
-    final r = color.red;
-    final g = color.green;
-    final b = color.blue;
-
-    return Color.fromARGB(a, r, g, b);
+  Color _colorWithOpacity(Color color, double opacity) {
+    return Color.fromARGB(
+      (color.a * opacity * 255.0).round().clamp(0, 255),
+      (color.r * 255.0).round().clamp(0, 255),
+      (color.g * 255.0).round().clamp(0, 255),
+      (color.b * 255.0).round().clamp(0, 255),
+    );
   }
 
-  // Helper method for creating colors with opacity - FIXED
-  Color _colorWithOpacity(Color color, double opacity) {
-    // Use the new component accessors instead of color.value
-    final a = (color.alpha * opacity).round().clamp(0, 255);
-    final r = color.red;
-    final g = color.green;
-    final b = color.blue;
-
-    return Color.fromARGB(a, r, g, b);
+  Color _createColorWithOpacity(Color color, double opacity) {
+    return Color.fromARGB(
+      (color.a * opacity * 255.0).round().clamp(0, 255),
+      (color.r * 255.0).round().clamp(0, 255),
+      (color.g * 255.0).round().clamp(0, 255),
+      (color.b * 255.0).round().clamp(0, 255),
+    );
   }
 }
 

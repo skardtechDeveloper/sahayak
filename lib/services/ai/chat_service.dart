@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
@@ -9,7 +7,7 @@ import '../../../core/constants/api_constants.dart';
 class AIChatService {
   final Dio _dio = Dio();
   final Box _chatCache = Hive.box('chat_cache');
-  
+
   Future<String> generateResponse({
     required String prompt,
     required String language,
@@ -18,13 +16,17 @@ class AIChatService {
     try {
       // Check connectivity
       final connectivityResult = await Connectivity().checkConnectivity();
-      final isOnline = connectivityResult != ConnectivityResult.none;
-      
+      final isOnline = connectivityResult.isNotEmpty &&
+          connectivityResult.any((result) =>
+              result == ConnectivityResult.mobile ||
+              result == ConnectivityResult.wifi ||
+              result == ConnectivityResult.ethernet);
+
       // If offline mode requested or no internet
       if (useOffline || !isOnline) {
         return await _generateOfflineResponse(prompt, language);
       }
-      
+
       // Try cloud AI first
       try {
         return await _generateCloudResponse(prompt, language);
@@ -36,13 +38,13 @@ class AIChatService {
       return 'माफ गर्नुहोस्, म जवाफ दिन असक्षम छु। कृपया पुनः प्रयास गर्नुहोस्।';
     }
   }
-  
+
   Future<String> _generateCloudResponse(String prompt, String language) async {
     // Check cache first
     final cacheKey = '${prompt.hashCode}_$language';
     final cached = _chatCache.get(cacheKey);
     if (cached != null) return cached;
-    
+
     // Prepare API request
     final messages = [
       {
@@ -56,7 +58,7 @@ class AIChatService {
       },
       {'role': 'user', 'content': prompt}
     ];
-    
+
     final response = await _dio.post(
       ApiConstants.openaiChatEndpoint,
       options: Options(
@@ -72,16 +74,17 @@ class AIChatService {
         'max_tokens': 1000,
       },
     );
-    
+
     final responseText = response.data['choices'][0]['message']['content'];
-    
+
     // Cache the response
     await _chatCache.put(cacheKey, responseText);
-    
+
     return responseText;
   }
-  
-  Future<String> _generateOfflineResponse(String prompt, String language) async {
+
+  Future<String> _generateOfflineResponse(
+      String prompt, String language) async {
     // Simple rule-based responses for offline mode
     final offlineResponses = {
       'ne': {
@@ -97,41 +100,40 @@ class AIChatService {
         'goodbye': 'Goodbye! Take care.',
       },
     };
-    
+
     final langResponses = offlineResponses[language] ?? offlineResponses['en']!;
-    
+
     // Try to find matching response
     for (final key in langResponses.keys) {
       if (prompt.toLowerCase().contains(key.toLowerCase())) {
         return langResponses[key]!;
       }
     }
-    
+
     // Default response
-    return language == 'ne' 
+    return language == 'ne'
         ? 'माफ गर्नुहोस्, म यो प्रश्नको उत्तर दिन सक्दिन। कृपया इन्टरनेट जडान गर्नुहोस्।'
         : 'Sorry, I cannot answer this question offline. Please connect to the internet.';
   }
-  
+
   // Stream responses for real-time effect
   Stream<String> generateStreamingResponse({
     required String prompt,
     required String language,
   }) async* {
-    final words = prompt.split(' ');
     final simulatedResponse = language == 'ne'
         ? 'तपाईंको प्रश्नको विश्लेषण गर्दै...'
         : 'Analyzing your question...';
-    
+
     yield simulatedResponse;
-    
+
     await Future.delayed(const Duration(seconds: 1));
-    
+
     final response = await generateResponse(
       prompt: prompt,
       language: language,
     );
-    
+
     // Stream response word by word
     final responseWords = response.split(' ');
     for (final word in responseWords) {

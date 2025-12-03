@@ -1,5 +1,6 @@
 // lib/injection_container.dart
 import 'package:get_it/get_it.dart';
+import 'package:flutter/foundation.dart';
 
 final GetIt sl = GetIt.instance;
 
@@ -11,5 +12,5 @@ Future<void> init() async {
   // sl.registerLazySingleton(() => AuthService());
   // sl.registerLazySingleton(() => StorageService());
 
-  print('Dependency injection initialized');
+  debugPrint('Dependency injection initialized');
 }

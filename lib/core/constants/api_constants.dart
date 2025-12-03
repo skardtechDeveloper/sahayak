@@ -1,5 +1,6 @@
 class ApiConstants {
   // OpenAI API
+  static const String openaiApiKey = 'your-actual-api-key-here';
   static const String openaiBaseUrl = 'https://api.openai.com/v1';
   static const String openaiChatEndpoint = '$openaiBaseUrl/chat/completions';
   static const String openaiCompletionEndpoint = '$openaiBaseUrl/completions';

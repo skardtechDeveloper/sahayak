@@ -49,7 +49,7 @@ class _SplashPageState extends State<SplashPage> {
               'AI Personal Assistant',
               style: TextStyle(
                 fontSize: 18,
-                color: Colors.white.withOpacity(0.9),
+                color: Color(0xE6FFFFFF),
               ),
             ),
             const SizedBox(height: 50),

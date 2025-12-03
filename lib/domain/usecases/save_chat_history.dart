@@ -1,4 +1,5 @@
 import '../entities/chat_message.dart'; // Update with the correct path
+import 'package:flutter/foundation.dart';
 
 class SaveChatHistoryParams {
   final ChatMessage userMessage; // Change from Map to ChatMessage
@@ -14,6 +15,6 @@ class SaveChatHistory {
   Future<void> call(SaveChatHistoryParams params) async {
     // This would save to local storage or Firebase
     await Future.delayed(const Duration(milliseconds: 500));
-    print('Chat history saved');
+    debugPrint('Chat history saved');
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:io';
-import 'package:google_ml_kit/google_ml_kit.dart';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
+import 'package:flutter/foundation.dart';
 import 'package:image/image.dart' as img;
 
 class NepaliOCRService {
@@ -8,15 +9,14 @@ class NepaliOCRService {
   TextRecognizer? _textRecognizer;
 
   Future<void> initialize() async {
-    // Initialize Google ML Kit for general OCR
-    _textRecognizer = GoogleMlKit.vision.textRecognizer();
+    _textRecognizer = TextRecognizer();
 
     // Load custom Nepali TFLite model
     try {
       _interpreter =
           await Interpreter.fromAsset('assets/models/nepali_ocr.tflite');
     } catch (e) {
-      print('Failed to load Nepali OCR model: $e');
+      debugPrint('Failed to load Nepali OCR model: $e');
     }
   }
 

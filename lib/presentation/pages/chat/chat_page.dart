@@ -1,10 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:speech_to_text/speech_to_text.dart';
 
 import '../../bloc/chat/chat_bloc.dart';
-import '../../widgets/chat_message_bubble.dart';
 import '../../widgets/voice_wave_animation.dart';
+
+class ChatMessageBubble extends StatelessWidget {
+  final dynamic message;
+  final bool isUser;
+
+  const ChatMessageBubble({
+    required this.message,
+    required this.isUser,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        decoration: BoxDecoration(
+          color: isUser ? Colors.blue : Colors.grey.shade200,
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Text(
+          message.content ?? '',
+          style: TextStyle(
+            color: isUser ? Colors.white : Colors.black,
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
