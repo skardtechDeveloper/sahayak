@@ -1,37 +1,44 @@
+// lib/data/models/user_model.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive/hive.dart';
 
-part 'user_model.g.dart';
-
 @HiveType(typeId: 1)
-class UserModel {
+class UserModel extends HiveObject {
   @HiveField(0)
   final String uid;
+
   @HiveField(1)
-  final String email;
+  String email;
+
   @HiveField(2)
-  final String name;
+  String name;
+
   @HiveField(3)
-  final String phone;
+  String? phone;
+
   @HiveField(4)
-  final String subscription;
+  String subscription;
+
   @HiveField(5)
-  final int tokens;
+  int tokens;
+
   @HiveField(6)
-  final DateTime subscriptionExpiry;
+  DateTime? subscriptionExpiry;
+
   @HiveField(7)
-  final Map<String, dynamic> preferences;
+  Map<String, dynamic> preferences;
+
   @HiveField(8)
-  final DateTime createdAt;
+  DateTime createdAt;
 
   UserModel({
     required this.uid,
     required this.email,
     required this.name,
-    required this.phone,
+    this.phone,
     this.subscription = 'free',
     this.tokens = 100,
-    required this.subscriptionExpiry,
+    this.subscriptionExpiry,
     this.preferences = const {},
     required this.createdAt,
   });
@@ -42,10 +49,12 @@ class UserModel {
       uid: doc.id,
       email: data['email'] ?? '',
       name: data['name'] ?? '',
-      phone: data['phone'] ?? '',
+      phone: data['phone'],
       subscription: data['subscription'] ?? 'free',
       tokens: data['tokens'] ?? 100,
-      subscriptionExpiry: (data['subscriptionExpiry'] as Timestamp).toDate(),
+      subscriptionExpiry: data['subscriptionExpiry'] != null
+          ? (data['subscriptionExpiry'] as Timestamp).toDate()
+          : null,
       preferences: Map<String, dynamic>.from(data['preferences'] ?? {}),
       createdAt: (data['createdAt'] as Timestamp).toDate(),
     );
@@ -58,7 +67,9 @@ class UserModel {
       'phone': phone,
       'subscription': subscription,
       'tokens': tokens,
-      'subscriptionExpiry': Timestamp.fromDate(subscriptionExpiry),
+      'subscriptionExpiry': subscriptionExpiry != null
+          ? Timestamp.fromDate(subscriptionExpiry!)
+          : null,
       'preferences': preferences,
       'createdAt': Timestamp.fromDate(createdAt),
     };

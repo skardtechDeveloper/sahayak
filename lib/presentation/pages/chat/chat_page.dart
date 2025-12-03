@@ -16,14 +16,14 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   final TextEditingController _textController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-  
+
   @override
   void dispose() {
     _textController.dispose();
     _scrollController.dispose();
     super.dispose();
   }
-  
+
   void _scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
@@ -35,7 +35,7 @@ class _ChatPageState extends State<ChatPage> {
       }
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,19 +65,19 @@ class _ChatPageState extends State<ChatPage> {
                 if (state is ChatInitial) {
                   return _buildWelcomeView();
                 }
-                
+
                 if (state is ChatLoading) {
                   return _buildChatView(state);
                 }
-                
+
                 if (state is ChatLoaded) {
                   return _buildChatView(state);
                 }
-                
+
                 if (state is ChatError) {
                   return _buildErrorView(state);
                 }
-                
+
                 return const Center(child: CircularProgressIndicator());
               },
             ),
@@ -87,7 +87,7 @@ class _ChatPageState extends State<ChatPage> {
       ),
     );
   }
-  
+
   Widget _buildWelcomeView() {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20),
@@ -125,7 +125,7 @@ class _ChatPageState extends State<ChatPage> {
       ),
     );
   }
-  
+
   Widget _buildChatView(ChatState state) {
     return ListView.builder(
       controller: _scrollController,
@@ -144,7 +144,7 @@ class _ChatPageState extends State<ChatPage> {
       },
     );
   }
-  
+
   Widget _buildErrorView(ChatError state) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -163,7 +163,7 @@ class _ChatPageState extends State<ChatPage> {
       ],
     );
   }
-  
+
   Widget _buildInputArea(BuildContext context) {
     return BlocBuilder<ChatBloc, ChatState>(
       builder: (context, state) {
@@ -179,8 +179,8 @@ class _ChatPageState extends State<ChatPage> {
                 child: TextField(
                   controller: _textController,
                   decoration: InputDecoration(
-                    hintText: state.currentLanguage == 'ne' 
-                        ? 'सन्देश लेख्नुहोस्...' 
+                    hintText: state.currentLanguage == 'ne'
+                        ? 'सन्देश लेख्नुहोस्...'
                         : 'Type a message...',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(25),
@@ -203,7 +203,8 @@ class _ChatPageState extends State<ChatPage> {
               else
                 IconButton(
                   icon: const Icon(Icons.mic),
-                  onPressed: () => context.read<ChatBloc>().add(StartListening()),
+                  onPressed: () =>
+                      context.read<ChatBloc>().add(StartListening()),
                   tooltip: 'Voice Input',
                 ),
               const SizedBox(width: 10),
@@ -222,7 +223,7 @@ class _ChatPageState extends State<ChatPage> {
       },
     );
   }
-  
+
   Widget _buildQuickPrompt(String text) {
     return ActionChip(
       label: Text(text),
@@ -231,7 +232,7 @@ class _ChatPageState extends State<ChatPage> {
       },
     );
   }
-  
+
   Widget _buildTypingIndicator() {
     return const Padding(
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -247,16 +248,16 @@ class _ChatPageState extends State<ChatPage> {
       ),
     );
   }
-  
+
   void _sendMessage(BuildContext context, String message) {
     final state = context.read<ChatBloc>().state;
     context.read<ChatBloc>().add(SendMessage(
-      message: message,
-      language: state.currentLanguage,
-    ));
+          message: message,
+          language: state.currentLanguage,
+        ));
     _textController.clear();
   }
-  
+
   void _showLanguageDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -288,7 +289,7 @@ class _ChatPageState extends State<ChatPage> {
       },
     );
   }
-  
+
   void _clearChat(BuildContext context) {
     showDialog(
       context: context,
